@@ -2,12 +2,12 @@
 const Movie = require("../models/movie");
 
 // Get all movies
-module.exports.getAllMovies = async function (req, res) {
+module.exports.getAllMovies = async function (req, res, next) {
     try {
         const movies = await Movie.getAllMovies();
-        res.json(movies);
+        res.status(200).json(movies);
     } catch (e) {
-        console.log(e);
+        return next(e);
     }
 };
 
@@ -15,9 +15,8 @@ module.exports.getAllMovies = async function (req, res) {
 module.exports.getOneMovie = async function (req, res) {
     try {
         const movie = await Movie.getOneMovie(req.params.id);
-        console.log(movie);
-        res.json(movie);
+        res.status(200).json(movie);
     } catch (e) {
-        console.log(e);
+        return next(e);
     }
 };
