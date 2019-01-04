@@ -13,6 +13,12 @@ const movieValidation= checkSchema({
             options: {min: 1}
         }
     },
+    genre:{
+        isLength: {
+            errorMessage: "Genre is required.",
+            options: {min: 1}
+        }
+    },
     year:{
         isLength: {
             errorMessage: "Year is required.",

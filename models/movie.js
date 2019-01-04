@@ -1,3 +1,6 @@
+// Moment
+const moment = require("moment");
+
 // Database import
 const DB = require("./index");
 
@@ -40,12 +43,37 @@ module.exports.getOneMovie = async function (id) {
 };
 
 module.exports.createMovie = async function (movie) {
-    const {title, description, year, director, language, length, rate} = movie;
+    const {title, description, genre, year, director, language, length, rate} = movie;
 
     try {
-        return await DB.query("INSERT INTO movies (title, description, year, director, language, length, rate) VALUES (?,?,?,?,?,?,?)",
-            [title, description, year, director, language, length, rate]);
+        return await DB.query("INSERT INTO movies (title, description, genre, year, director, language, length, rate) VALUES (?,?,?,?,?,?,?,?)",
+            [title, description, genre, year, director, language, length, rate]);
     } catch (err) {
         throw new Error("Error while creating a movie.");
+    }
+};
+
+module.exports.deleteMovie = async function (id) {
+    try {
+       let result = await DB.query("DELETE FROM movies WHERE id = ?", [id]);
+
+       // If deleted successfully, return true
+       return result.affectedRows === 1;
+    } catch (err) {
+        throw new Error("Error while deleting a movie.");
+    }
+};
+
+module.exports.updateMovie = async function (movie) {
+    const {title, description, genre, year, director, language, length, rate, id} = movie;
+
+    try {
+        let result = await DB.query(`UPDATE movies SET title =?, description =?, genre=?, year =?, director =?, language =?, length =?, rate =?, modified_at =? WHERE id = ?`,
+            [title, description, genre, year, director, language, length, rate, (moment().format()), id]);
+
+        // If updated successfully, return true
+        return result.affectedRows === 1;
+    } catch (err) {
+        throw new Error("Error while updating a movie.");
     }
 };

@@ -39,16 +39,56 @@ module.exports.createMovie = async function (req, res, next) {
     const errors = validationResult(req);
 
     if (!errors.isEmpty())
-        return res.status(422).json({ error: errors.array() });
+        return res.status(400).json({ error: errors.array() });
 
-    const {title, description, year, director, language, length, rate} = req.body;
-    let movie = {title, description, year, director, language, length, rate};
+    const {title, description, genre, year, director, language, length, rate} = req.body;
+    let movie = {title, description, genre, year, director, language, length, rate};
 
     try {
         const result = await Movie.createMovie(movie);
         movie.id = result.insertId;
 
         res.location(`${req.headers.host}/movies/${movie.id}`).status(201).json(movie);
+
+    } catch (err) {
+        return next(err);
+    }
+};
+
+// Delete one movie
+module.exports.deleteMovie = async function (req, res, next) {
+    try {
+        // T | F
+        const result = await Movie.deleteMovie(req.params.id);
+
+        if(!result)
+            next({status: 400, message: "No movie with this ID."});
+        else
+            res.status(204).json();
+
+    } catch (err) {
+        return next(err);
+    }
+};
+
+// Update one movie
+module.exports.updateMovie = async function (req, res, next) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty())
+        return res.status(400).json({ error: errors.array() });
+
+    const {title, description, genre, year, director, language, length, rate} = req.body;
+    let movie = {title, description, genre, year, director, language, length, rate};
+    movie.id = req.params.id;
+
+    try {
+        const result = await Movie.updateMovie(movie);
+
+        if(!result)
+            next({status: 400, message: "No movie with this ID."});
+        else
+            res.status(200).json(movie);
 
     } catch (err) {
         return next(err);

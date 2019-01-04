@@ -19,7 +19,7 @@ app.use("/movies", moviesRoutes);
 
 // Invalid request 404
 app.use((req, res, next) => {
-    let err = new Error("Not Found");
+    let err = new Error("Not Found.");
     err.status = 404;
     next(err);
 });
