@@ -1,5 +1,10 @@
 // Moment
 const moment = require("moment");
+const CacheService = require("../services/cache");
+
+// Caching time
+const ttl = 60 * 1;
+const cache = new CacheService(ttl);
 
 // Database import
 const DB = require("./index");
@@ -26,17 +31,25 @@ module.exports.getAllMovies = async function (perPage = 10, offset = 0, sortBy =
     if (order === "ASC" || order === "DESC")
         orderQuery = `${order}`;
 
+    const key = `getAllMovies_${sortQuery}_${orderQuery}_${perPage}_${offset}`;
+
     try {
-        console.log(`SELECT * FROM movies ${sortQuery} ${orderQuery} LIMIT ${perPage} OFFSET ${offset}`);
-        return await DB.query(`SELECT * FROM movies ${sortQuery} ${orderQuery} LIMIT ${perPage} OFFSET ${offset}`,);
+        return await cache.get(key, () => (
+            DB.query(`SELECT * FROM movies ${sortQuery} ${orderQuery} LIMIT ${perPage} OFFSET ${offset}`)
+        ));
     } catch (err) {
         throw new Error("Error while selecting all movies.");
     }
 };
 
 module.exports.getOneMovie = async function (id) {
+    const key = `getMovie_${id}`;
+
     try {
-        return await DB.query("SELECT * FROM movies WHERE id = ?", [id]);
+        return await cache.get(key, () => (
+            DB.query("SELECT * FROM movies WHERE id = ?", [id])
+        ));
+
     } catch (err) {
         throw new Error("Error while selecting one movie.");
     }
@@ -56,6 +69,7 @@ module.exports.createMovie = async function (movie) {
 module.exports.deleteMovie = async function (id) {
     try {
        let result = await DB.query("DELETE FROM movies WHERE id = ?", [id]);
+        cache.del(`getMovie_${id}`);
 
        // If deleted successfully, return true
        return result.affectedRows === 1;
@@ -70,6 +84,8 @@ module.exports.updateMovie = async function (movie) {
     try {
         let result = await DB.query(`UPDATE movies SET title =?, description =?, genre=?, year =?, director =?, language =?, length =?, rate =?, modified_at =? WHERE id = ?`,
             [title, description, genre, year, director, language, length, rate, (moment().format()), id]);
+
+        cache.del(`getMovie_${id}`);
 
         // If updated successfully, return true
         return result.affectedRows === 1;

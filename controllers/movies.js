@@ -62,7 +62,7 @@ module.exports.deleteMovie = async function (req, res, next) {
         const result = await Movie.deleteMovie(req.params.id);
 
         if(!result)
-            next({status: 400, message: "No movie with this ID."});
+            next();
         else
             res.status(204).json();
 
@@ -86,7 +86,7 @@ module.exports.updateMovie = async function (req, res, next) {
         const result = await Movie.updateMovie(movie);
 
         if(!result)
-            next({status: 400, message: "No movie with this ID."});
+            next();
         else
             res.status(200).json(movie);
 
