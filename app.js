@@ -25,10 +25,10 @@ app.use((req, res, next) => {
 });
 
 // Error handler
-app.use((error, request, response, next) => {
-    return response.status(error.status || 500).json({
+app.use((err, req, res, next) => {
+    return res.status(err.status || 500).json({
         error: {
-            message: error.message || "Oops! Something went wrong."
+            msg: err.message || "Oops! Something went wrong."
         }
     });
 });

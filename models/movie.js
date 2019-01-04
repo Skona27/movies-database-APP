@@ -38,3 +38,14 @@ module.exports.getOneMovie = async function (id) {
         throw new Error("Error while selecting one movie.");
     }
 };
+
+module.exports.createMovie = async function (movie) {
+    const {title, description, year, director, language, length, rate} = movie;
+
+    try {
+        return await DB.query("INSERT INTO movies (title, description, year, director, language, length, rate) VALUES (?,?,?,?,?,?,?)",
+            [title, description, year, director, language, length, rate]);
+    } catch (err) {
+        throw new Error("Error while creating a movie.");
+    }
+};
