@@ -6,14 +6,44 @@ const Movie = require("../models/movie");
 // Get all movies
 module.exports.getAllMovies = async function (req, res, next) {
     // For pagination
-    const {perPage, offset} = req.query;
+    var {perPage, offset} = req.query;
+    perPage = parseInt(perPage);
+    offset = parseInt(offset);
+
+    // We need this in order to send links with response
+    if(Number.isNaN(perPage))
+        perPage = 10;
+
+    if(Number.isNaN(offset))
+        offset = 0;
 
     // For sorting
     const {sortBy, order} = req.query;
 
     try {
-        const movies = await Movie.getAllMovies(perPage, offset, sortBy, order);
-        res.status(200).json(movies);
+        let movies = {};
+
+        movies.totalCount = await Movie.getMoviesCount();
+        movies.perPage = perPage;
+        movies.pageNumber = (perPage+offset)/perPage;
+        movies.data = await Movie.getAllMovies(perPage, offset, sortBy, order);
+
+        movies.data.forEach(movie => {
+           movie.links = [
+               {rel: "self", method: "GET", href: `http://${req.headers.host}/movies/${movie.id}`}
+           ];
+        });
+
+        let links = [{rel: "create", method: "POST", href: `http://${req.headers.host}/movies`}];
+
+        if(offset > 0)
+            links.push({rel: "prev", method: "GET", href: `http://${req.headers.host}/movies?perPage=${perPage}&offset=${offset-perPage}`});
+
+        if(movies.totalCount > offset+perPage)
+            links.push({rel: "next", method: "GET", href: `http://${req.headers.host}/movies?perPage=${perPage}&offset=${offset+perPage}`});
+
+        res.status(200).json({...movies, links});
+
     } catch (err) {
         return next(err);
     }
@@ -22,12 +52,19 @@ module.exports.getAllMovies = async function (req, res, next) {
 // Get one movie
 module.exports.getOneMovie = async function (req, res, next) {
     try {
-        const movie = await Movie.getOneMovie(req.params.id);
+        let movie = {};
+        movie.data = await Movie.getOneMovie(req.params.id);
 
-        if(!movie.length)
+        if(!movie.data)
             return next();
-        else
-            res.status(200).json(movie);
+
+        // In future, check auth and push links to link array
+        let links = [
+            {rel: "update", method: "PUT", href: `http://${req.headers.host}/movies/${req.params.id}`},
+            {rel: "delete", method: "DELETE", href: `http://${req.headers.host}/movies/${req.params.id}`},
+        ];
+
+        res.status(200).json({...movie, links});
 
     } catch (err) {
         return next(err);
@@ -48,7 +85,13 @@ module.exports.createMovie = async function (req, res, next) {
         const result = await Movie.createMovie(movie);
         movie.id = result.insertId;
 
-        res.location(`${req.headers.host}/movies/${movie.id}`).status(201).json(movie);
+        let links = [
+            {rel: "self", method: "GET", href: `http://${req.headers.host}/movies/${movie.id}`},
+            {rel: "update", method: "PUT", href: `http://${req.headers.host}/movies/${movie.id}`},
+            {rel: "delete", method: "DELETE", href: `http://${req.headers.host}/movies/${movie.id}`}
+        ];
+
+        res.location(`${req.headers.host}/movies/${movie.id}`).status(201).json({data: movie, links});
 
     } catch (err) {
         return next(err);
@@ -85,10 +128,16 @@ module.exports.updateMovie = async function (req, res, next) {
     try {
         const result = await Movie.updateMovie(movie);
 
+        let links = [
+            {rel: "self", method: "GET", href: `http://${req.headers.host}/movies/${movie.id}`},
+            {rel: "update", method: "PUT", href: `http://${req.headers.host}/movies/${movie.id}`},
+            {rel: "delete", method: "DELETE", href: `http://${req.headers.host}/movies/${movie.id}`}
+        ];
+
         if(!result)
             next();
         else
-            res.status(200).json(movie);
+            res.status(200).json({data: movie, links});
 
     } catch (err) {
         return next(err);

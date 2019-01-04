@@ -2,7 +2,7 @@
 const moment = require("moment");
 const CacheService = require("../services/cache");
 
-// Caching time
+// Caching time 60 sec
 const ttl = 60 * 1;
 const cache = new CacheService(ttl);
 
@@ -10,11 +10,7 @@ const cache = new CacheService(ttl);
 const DB = require("./index");
 
 module.exports.getAllMovies = async function (perPage = 10, offset = 0, sortBy = 'id', order = 'desc') {
-    if(Number.isNaN(parseInt(perPage)))
-        perPage = 10;
-
-    if(Number.isNaN(parseInt(offset)))
-        offset = 0;
+   // perPage and offset validation is in controller!
 
     const sortable = ["id", "title", "year", "length", "rate"];
 
@@ -37,6 +33,22 @@ module.exports.getAllMovies = async function (perPage = 10, offset = 0, sortBy =
         return await cache.get(key, () => (
             DB.query(`SELECT * FROM movies ${sortQuery} ${orderQuery} LIMIT ${perPage} OFFSET ${offset}`)
         ));
+
+    } catch (err) {
+        throw new Error("Error while selecting all movies.");
+    }
+};
+
+module.exports.getMoviesCount = async function () {
+    const key = `allMoviesCount`;
+
+    try {
+        let result = await cache.get(key, () => (
+            DB.query(`SELECT count(*) as 'count' FROM movies`)
+        ));
+
+        // This comes as an array with one value
+        return result[0].count;
     } catch (err) {
         throw new Error("Error while selecting all movies.");
     }
@@ -46,9 +58,12 @@ module.exports.getOneMovie = async function (id) {
     const key = `getMovie_${id}`;
 
     try {
-        return await cache.get(key, () => (
+        let movie = await cache.get(key, () => (
             DB.query("SELECT * FROM movies WHERE id = ?", [id])
         ));
+
+        // This comes as an array of one result
+        return movie[0];
 
     } catch (err) {
         throw new Error("Error while selecting one movie.");
@@ -59,8 +74,12 @@ module.exports.createMovie = async function (movie) {
     const {title, description, genre, year, director, language, length, rate} = movie;
 
     try {
-        return await DB.query("INSERT INTO movies (title, description, genre, year, director, language, length, rate) VALUES (?,?,?,?,?,?,?,?)",
+        let result = await DB.query("INSERT INTO movies (title, description, genre, year, director, language, length, rate) VALUES (?,?,?,?,?,?,?,?)",
             [title, description, genre, year, director, language, length, rate]);
+
+        cache.flush();
+
+        return result;
     } catch (err) {
         throw new Error("Error while creating a movie.");
     }
@@ -69,7 +88,7 @@ module.exports.createMovie = async function (movie) {
 module.exports.deleteMovie = async function (id) {
     try {
        let result = await DB.query("DELETE FROM movies WHERE id = ?", [id]);
-        cache.del(`getMovie_${id}`);
+       cache.flush();
 
        // If deleted successfully, return true
        return result.affectedRows === 1;
@@ -85,7 +104,7 @@ module.exports.updateMovie = async function (movie) {
         let result = await DB.query(`UPDATE movies SET title =?, description =?, genre=?, year =?, director =?, language =?, length =?, rate =?, modified_at =? WHERE id = ?`,
             [title, description, genre, year, director, language, length, rate, (moment().format()), id]);
 
-        cache.del(`getMovie_${id}`);
+        cache.flush();
 
         // If updated successfully, return true
         return result.affectedRows === 1;
