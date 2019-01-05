@@ -30,19 +30,19 @@ module.exports.getAllMovies = async function (req, res, next) {
 
         movies.data.forEach(movie => {
            movie.links = [
-               {rel: "self", method: "GET", href: `http://${req.headers.host}/movies/${movie.id}`}
+               {rel: "self", method: "GET", href: `http://${req.headers.host}/api/movies/${movie.id}`}
            ];
         });
 
         let links = [];
 
         if(offset > 0)
-            links.push({rel: "prev", method: "GET", href: `http://${req.headers.host}/movies?perPage=${perPage}&offset=${offset-perPage}`});
+            links.push({rel: "prev", method: "GET", href: `http://${req.headers.host}/api/movies?perPage=${perPage}&offset=${offset-perPage}`});
 
         if(movies.totalCount > offset+perPage)
-            links.push({rel: "next", method: "GET", href: `http://${req.headers.host}/movies?perPage=${perPage}&offset=${offset+perPage}`});
+            links.push({rel: "next", method: "GET", href: `http://${req.headers.host}/api/movies?perPage=${perPage}&offset=${offset+perPage}`});
 
-        links.push({rel: "create", method: "POST", href: `http://${req.headers.host}/movies`});
+        links.push({rel: "create", method: "POST", href: `http://${req.headers.host}/api/movies`});
 
         res.status(200).json({...movies, links});
 
@@ -62,8 +62,8 @@ module.exports.getOneMovie = async function (req, res, next) {
 
         // In future, check auth and push links to link array
         let links = [
-            {rel: "update", method: "PUT", href: `http://${req.headers.host}/movies/${req.params.id}`},
-            {rel: "delete", method: "DELETE", href: `http://${req.headers.host}/movies/${req.params.id}`},
+            {rel: "update", method: "PUT", href: `http://${req.headers.host}/api/movies/${req.params.id}`},
+            {rel: "delete", method: "DELETE", href: `http://${req.headers.host}/api/movies/${req.params.id}`},
         ];
 
         res.status(200).json({...movie, links});
@@ -88,9 +88,9 @@ module.exports.createMovie = async function (req, res, next) {
         movie.id = result.insertId;
 
         let links = [
-            {rel: "self", method: "GET", href: `http://${req.headers.host}/movies/${movie.id}`},
-            {rel: "update", method: "PUT", href: `http://${req.headers.host}/movies/${movie.id}`},
-            {rel: "delete", method: "DELETE", href: `http://${req.headers.host}/movies/${movie.id}`}
+            {rel: "self", method: "GET", href: `http://${req.headers.host}/api/movies/${movie.id}`},
+            {rel: "update", method: "PUT", href: `http://${req.headers.host}/api/movies/${movie.id}`},
+            {rel: "delete", method: "DELETE", href: `http://${req.headers.host}/api/movies/${movie.id}`}
         ];
 
         res.location(`${req.headers.host}/movies/${movie.id}`).status(201).json({data: movie, links});
@@ -131,15 +131,15 @@ module.exports.updateMovie = async function (req, res, next) {
         const result = await Movie.updateMovie(movie);
 
         let links = [
-            {rel: "self", method: "GET", href: `http://${req.headers.host}/movies/${movie.id}`},
-            {rel: "update", method: "PUT", href: `http://${req.headers.host}/movies/${movie.id}`},
-            {rel: "delete", method: "DELETE", href: `http://${req.headers.host}/movies/${movie.id}`}
+            {rel: "self", method: "GET", href: `http://${req.headers.host}/api/movies/${movie.id}`},
+            {rel: "update", method: "PUT", href: `http://${req.headers.host}/api/movies/${movie.id}`},
+            {rel: "delete", method: "DELETE", href: `http://${req.headers.host}/api/movies/${movie.id}`}
         ];
 
         if(!result)
-            next();
-        else
-            res.status(200).json({data: movie, links});
+            return next();
+
+        res.status(200).json({data: movie, links});
 
     } catch (err) {
         return next(err);

@@ -5,6 +5,7 @@ var logger = require('morgan');
 var fs = require('fs');
 
 const moviesRoutes = require("./routes/movies");
+const authRoutes = require("./routes/auth");
 
 var app = express();
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
@@ -17,8 +18,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use("/movies", moviesRoutes);
-
+app.use("/api/movies", moviesRoutes);
+app.use("/api", authRoutes);
 
 // Invalid request 404
 app.use((req, res, next) => {

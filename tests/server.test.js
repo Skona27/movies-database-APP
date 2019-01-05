@@ -7,7 +7,7 @@ const app = require("../app");
 describe("Server", () => {
     it("should respond", done => {
         request(app)
-            .get("/movies")
+            .get("/api/movies")
             .expect(200)
             .end(done);
     });

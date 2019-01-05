@@ -8,11 +8,13 @@
     "test-watch": "nodemon --exec 'npm test'"
   },
   "dependencies": {
+    "bcrypt": "^3.0.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "express-hateoas-links": "^1.0.9",
     "express-validator": "^5.3.1",
+    "jsonwebtoken": "^8.4.0",
     "moment": "^2.23.0",
     "morgan": "~1.9.0",
     "mysql": "^2.16.0",
