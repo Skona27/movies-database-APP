@@ -1,7 +1,8 @@
 var { validationResult } = require('express-validator/check');
 
-// Movie model import
+// Model
 const Movie = require("../models/movie");
+const User = require("../models/user");
 
 // Get all movies
 module.exports.getAllMovies = async function (req, res, next) {
@@ -34,6 +35,7 @@ module.exports.getAllMovies = async function (req, res, next) {
            ];
         });
 
+        // Links
         let links = [];
 
         if(offset > 0)
@@ -42,7 +44,15 @@ module.exports.getAllMovies = async function (req, res, next) {
         if(movies.totalCount > offset+perPage)
             links.push({rel: "next", method: "GET", href: `http://${req.headers.host}/api/movies?perPage=${perPage}&offset=${offset+perPage}`});
 
-        links.push({rel: "create", method: "POST", href: `http://${req.headers.host}/api/movies`});
+        // Check auth and push link
+        const authHeader = req.headers.authorization;
+
+        if(authHeader) {
+            if(!User.validateAuthHeader(authHeader))
+                return next({ status: 401, message: "Bad authentication token." });
+
+            links.push({rel: "create", method: "POST", href: `http://${req.headers.host}/api/movies`});
+        }
 
         res.status(200).json({...movies, links});
 
@@ -60,11 +70,18 @@ module.exports.getOneMovie = async function (req, res, next) {
         if(!movie.data)
             return next();
 
-        // In future, check auth and push links to link array
-        let links = [
-            {rel: "update", method: "PUT", href: `http://${req.headers.host}/api/movies/${req.params.id}`},
-            {rel: "delete", method: "DELETE", href: `http://${req.headers.host}/api/movies/${req.params.id}`},
-        ];
+        let links = [];
+        const authHeader = req.headers.authorization;
+
+        if(authHeader) {
+            if(!User.validateAuthHeader(authHeader))
+                return next({ status: 401, message: "Bad authentication token." });
+
+            links = [
+                {rel: "update", method: "PUT", href: `http://${req.headers.host}/api/movies/${req.params.id}`},
+                {rel: "delete", method: "DELETE", href: `http://${req.headers.host}/api/movies/${req.params.id}`},
+            ];
+        }
 
         res.status(200).json({...movie, links});
 

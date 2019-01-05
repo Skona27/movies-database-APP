@@ -11,6 +11,7 @@
     "bcrypt": "^3.0.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
+    "dotenv": "^6.2.0",
     "express": "~4.16.0",
     "express-hateoas-links": "^1.0.9",
     "express-validator": "^5.3.1",

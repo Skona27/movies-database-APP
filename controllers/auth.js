@@ -1,5 +1,4 @@
 // Requirements
-const jwt = require("jsonwebtoken");
 var { validationResult } = require('express-validator/check');
 
 // Movie model import
@@ -22,7 +21,8 @@ module.exports.login = async function (req, res, next) {
         const isMatch = await User.validatePassword(password, hash);
 
         if (isMatch) {
-            const token = jwt.sign({id, firstName}, 'SECRET');
+            const token = User.createToken({id, firstName});
+
             res.status(200).json({id, firstName, token});
         } else {
             next({status: 400, message: "Invalid Password."});
@@ -46,7 +46,7 @@ module.exports.register = async function (req, res, next) {
         let result = await User.createUser({email, firstName, lastName, password});
         const id = result.insertId;
 
-        const token = jwt.sign({id, firstName}, 'SECRET');
+        const token = User.createToken({id, firstName});
         res.status(201).json({id, firstName, token});
 
     } catch (err) {
