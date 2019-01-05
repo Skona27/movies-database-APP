@@ -112,3 +112,20 @@ module.exports.updateMovie = async function (movie) {
         throw new Error("Error while updating a movie.");
     }
 };
+
+module.exports.seedDB = async function () {
+    cache.flush();
+  const insertMoviesSQL = `INSERT INTO \`movies\` (\`title\`, \`description\`, \`genre\`, \`year\`, \`director\`, \`language\`, \`length\`, \`rate\`) VALUES
+('The Godfather', 'The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.', 'Crime', 1972, 'Francis Ford Coppola', 'English', 175, '9,2'),
+( 'Pirates of the Caribbean: The Curse of the Black Pearl', 'Blacksmith Will Turner teams up with eccentric pirate \\"Captain\\" Jack Sparrow to save his love, the governor\\'s daughter, from Jack\\'s former pirate allies, who are now undead.', 'Adventure',2003, 'Gore Verbinski', 'English', 143, '8,0'),
+( 'Inception', 'A thief, who steals corporate secrets through the use of dream-sharing technology, is given the inverse task of planting an idea into the mind of a CEO.', 'Action', 2010, 'Christopher Nolan', 'English', 148, '8,8'),
+( 'Casino', 'A tale of greed, deception, money, power, and murder occur between two best friends: a mafia enforcer and a casino executive, compete against each other over a gambling empire, and over a fast living and fast loving socialite.', 'Crime',1995, 'Martin Scorsese ', 'English', 178, '8,2'),
+('Titanic', 'A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.', 'Drama',1997, 'James Cameron', 'English', 194, '7,8');`;
+
+  try {
+      await DB.query("DELETE FROM movies WHERE 1 = 1");
+      await DB.query(insertMoviesSQL);
+  } catch (err) {
+      throw new Error("Error while seeding DB.");
+  }
+};

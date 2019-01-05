@@ -34,13 +34,15 @@ module.exports.getAllMovies = async function (req, res, next) {
            ];
         });
 
-        let links = [{rel: "create", method: "POST", href: `http://${req.headers.host}/movies`}];
+        let links = [];
 
         if(offset > 0)
             links.push({rel: "prev", method: "GET", href: `http://${req.headers.host}/movies?perPage=${perPage}&offset=${offset-perPage}`});
 
         if(movies.totalCount > offset+perPage)
             links.push({rel: "next", method: "GET", href: `http://${req.headers.host}/movies?perPage=${perPage}&offset=${offset+perPage}`});
+
+        links.push({rel: "create", method: "POST", href: `http://${req.headers.host}/movies`});
 
         res.status(200).json({...movies, links});
 
