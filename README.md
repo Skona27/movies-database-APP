@@ -1,5 +1,5 @@
 # movies-restfulAPI
-Movies RESTful API with implemented HATEOAS, built with NodeJS, Express, MySQL.
+Movies RESTful API with implemented HATEOAS and Server Side Caching, built with NodeJS, Express, MySQL.
 
 ## Getting Started
 
@@ -57,40 +57,42 @@ http://localhost:3000/api/movies
 ## More info
 I wanted to build an API that reaches the final level of The Richardson Maturity Model. This API serves movie data along with the ability to register and login users.
 HATEOAS was implemented without any packages. One can communicate with API in order to get movies data. By sending an auth header, API returns links for other actions,
-only accessable for authenticated user. Authenticated users have ability to CREATE, UPDATE, and DELETE movies. JWT token send in header: Authorization: Bearer <token>. 
+only accessable for authenticated user. Authenticated users have ability to CREATE, UPDATE, and DELETE movies.
+
+JWT token send in header: Authorization: Bearer 'token'. 
 Server side caching was implemented in this API by using a node-cache package.
 
 ### Communicating with API
 
-Getting all the movies
+Getting all the movies,
 Auth header: non-required
 
 ```
 GET http://localhost:3000/api/movies
 ```
 
-Getting one movie
+Getting one movie,
 Auth header: non-required
 
 ```
 GET http://localhost:3000/api/movies/:id
 ```
 
-Updating one movie
+Updating one movie,
 Auth header: required
 
 ```
 UPDATE http://localhost:3000/api/movies/:id
 ```
 
-Deleting one movie
+Deleting one movie,
 Auth header: required
 
 ```
 DELETE http://localhost:3000/api/movies/:id
 ```
 
-Creating a movie
+Creating a movie,
 Auth header: required
 
 ```
@@ -150,12 +152,13 @@ npm run test
 * ExpressJS - The web framework used
 * MySQL - Database used
 * mysql, express-validator, jsonwebtoken, node-cache - Packages worth mentioning
+* Mocha, supertest - For testing
 
 
 
 ## Authors
 
-* **Jakub Skoneczny** - *Initial work* - [PurpleBooth](https://github.com/Skona27)
+* **Jakub Skoneczny** - *Initial work* - [Profile](https://github.com/Skona27)
 
 
 ## License
