@@ -18,16 +18,16 @@ module.exports.getAllMovies = async function (req, res, next) {
     if(Number.isNaN(offset))
         offset = 0;
 
-    // For sorting
-    const {sortBy, order} = req.query;
+    // For sorting and searching
+    const {sortBy, order, search} = req.query;
 
     try {
         let movies = {};
 
-        movies.totalCount = await Movie.getMoviesCount();
+        movies.totalCount = await Movie.getMoviesCount(search);
         movies.perPage = perPage;
         movies.pageNumber = (perPage+offset)/perPage;
-        movies.data = await Movie.getAllMovies(perPage, offset, sortBy, order);
+        movies.data = await Movie.getAllMovies(perPage, offset, sortBy, order, search);
 
         movies.data.forEach(movie => {
            movie.links = [

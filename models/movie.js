@@ -9,13 +9,14 @@ const cache = new CacheService(ttl);
 // Database import
 const DB = require("./index");
 
-module.exports.getAllMovies = async function (perPage = 10, offset = 0, sortBy = 'id', order = 'desc') {
+module.exports.getAllMovies = async function (perPage = 10, offset = 0, sortBy = 'id', order = 'desc', search = null) {
    // perPage and offset validation is in controller!
 
     const sortable = ["id", "title", "year", "length", "rate"];
 
     let sortQuery = '',
-        orderQuery = '';
+        orderQuery = '',
+        searchQuery = '';
 
     sortBy = sortBy.toLowerCase();
 
@@ -27,11 +28,14 @@ module.exports.getAllMovies = async function (perPage = 10, offset = 0, sortBy =
     if (order === "ASC" || order === "DESC")
         orderQuery = `${order}`;
 
-    const key = `getAllMovies_${sortQuery}_${orderQuery}_${perPage}_${offset}`;
+    if (search)
+        searchQuery = `WHERE CONCAT (title, description, director) LIKE "%${search}%"`;
+
+    const key = `getAllMovies_${searchQuery}_${sortQuery}_${orderQuery}_${perPage}_${offset}`;
 
     try {
         return await cache.get(key, () => (
-            DB.query(`SELECT * FROM movies ${sortQuery} ${orderQuery} LIMIT ${perPage} OFFSET ${offset}`)
+            DB.query(`SELECT * FROM movies ${searchQuery} ${sortQuery} ${orderQuery} LIMIT ${perPage} OFFSET ${offset}`)
         ));
 
     } catch (err) {
@@ -39,12 +43,17 @@ module.exports.getAllMovies = async function (perPage = 10, offset = 0, sortBy =
     }
 };
 
-module.exports.getMoviesCount = async function () {
-    const key = `allMoviesCount`;
+module.exports.getMoviesCount = async function (search) {
+    const key = `allMoviesCount_${search}`;
+
+    // Search condition
+    let searchQuery = '';
+    if (search)
+        searchQuery = `WHERE CONCAT (title, description, director) LIKE "%${search}%"`;
 
     try {
         let result = await cache.get(key, () => (
-            DB.query(`SELECT count(*) as 'count' FROM movies`)
+            DB.query(`SELECT count(*) as 'count' FROM movies ${searchQuery}`)
         ));
 
         // This comes as an array with one value
