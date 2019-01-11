@@ -3,6 +3,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var fs = require('fs');
+var cors = require("cors");
 
 const moviesRoutes = require("./routes/movies");
 const authRoutes = require("./routes/auth");
@@ -10,6 +11,7 @@ const authRoutes = require("./routes/auth");
 var app = express();
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(logger('combined', { stream: accessLogStream }));
 app.use(express.json());
