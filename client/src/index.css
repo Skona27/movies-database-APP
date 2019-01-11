@@ -59,3 +59,9 @@ body {
 .custom-btn {
   margin-top: 4rem;
 }
+
+.form {
+  width: 40rem;
+  display: flex;
+  flex-direction: column;
+}

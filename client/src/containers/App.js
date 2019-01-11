@@ -3,6 +3,8 @@ import {Route, Switch} from "react-router-dom";
 
 import Navbar from "../components/Navbar/Navbar";
 import MainPage from "../containers/MainPage/MainPage";
+import CreateForm from './CreateForm/CreateForm';
+import LoginPage from "../containers/LoginPage/LoginPage";
 
 class App extends Component {
   render() {
@@ -11,7 +13,8 @@ class App extends Component {
         <Navbar />
         <Switch>
           <Route path="/" exact component={MainPage} />
-          <Route path="/login" exact />
+          <Route path="/create" exact component={CreateForm} />
+          <Route path="/login" exact component={LoginPage} />
         </Switch>
       </div>
     );
