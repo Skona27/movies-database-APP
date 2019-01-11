@@ -12,8 +12,7 @@ class MainPage extends Component {
 
     this.state = {
       movies: null,
-      links: null,
-      jwt: null
+      links: null
     };
 
     this.changePage = this.changePage.bind(this);
@@ -24,8 +23,8 @@ class MainPage extends Component {
     try {
       let result;
 
-      if(this.state.jwt) {
-        result = await axios.get(href, { headers: {"Authorization" : `Bearer ${this.state.jwt}`} });
+      if(this.props.token) {
+        result = await axios.get(href, { headers: {"Authorization" : `Bearer ${this.props.token}`} });
       } else {
         result = await axios.get(href);
       }
@@ -41,8 +40,8 @@ class MainPage extends Component {
       let result;
       let href = `http://localhost:3001/api/movies?search=${movie}&perPage=4`
 
-      if(this.state.jwt) {
-        result = await axios.get(href, { headers: {"Authorization" : `Bearer ${this.state.jwt}`} });
+      if(this.props.token) {
+        result = await axios.get(href, { headers: {"Authorization" : `Bearer ${this.props.token}`} });
       } else {
         result = await axios.get(href);
       }
@@ -67,8 +66,8 @@ class MainPage extends Component {
     try {
       let result;
       
-      if(this.state.jwt) {
-        result = await axios.get("http://localhost:3001/api/movies?perPage=4", { headers: {"Authorization" : `Bearer ${this.state.jwt}`} });
+      if(this.props.token) {
+        result = await axios.get("http://localhost:3001/api/movies?perPage=4", { headers: {"Authorization" : `Bearer ${this.props.token}`} });
       } else {
         result = await axios.get("http://localhost:3001/api/movies?perPage=4");
       }
