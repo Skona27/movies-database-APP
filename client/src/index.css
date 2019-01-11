@@ -46,6 +46,8 @@ body {
 
 .card {
   text-align: center;
+  vertical-align: center;
+  height: 14rem;
 }
 
 .card-subtitle {
