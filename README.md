@@ -1,5 +1,5 @@
 # movies-restfulAPI
-Movies RESTful API with implemented HATEOAS and Server Side Caching, built with NodeJS, Express, MySQL.
+SPA application build with React on top of Movies RESTful API with implemented HATEOAS and Server Side Caching, built with NodeJS, Express, MySQL.
 
 ## Getting Started
 
@@ -20,13 +20,16 @@ Access to MySQL database as super user
 
 A step by step series of examples that tell you how to get a development env running
 
-Install all dependencies
+Install all dependencies from server and client
 
 ```
+cd ./server
+npm i
+cd ./client
 npm i
 ```
 
-Create .enf file with database connection info nad JWT secret
+Create .enf file with database connection info nad JWT secret in server directory
 ```
 # Database
 DB_HOST=
@@ -45,12 +48,15 @@ mysql db_name < DB.sql
 
 ```
 
-Run application and open the browser.
+Run both, server and client application and open the browser.
 
 ```
+cd ./server
+npm start
+cd ./client 
 npm start
 
-http://localhost:3000/api/movies
+http://localhost:3000
 
 ```
 
