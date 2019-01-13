@@ -1,5 +1,5 @@
 # movies-restfulAPI
-SPA application build with React on top of Movies RESTful API with implemented HATEOAS and Server Side Caching, built with NodeJS, Express, MySQL.
+SPA application built with React on top of Movies RESTful API with implemented HATEOAS and Server Side Caching, built with NodeJS, Express, MySQL.
 
 ## Getting Started
 
@@ -25,6 +25,7 @@ Install all dependencies from server and client
 ```
 cd ./server
 npm i
+
 cd ./client
 npm i
 ```
@@ -45,7 +46,6 @@ Import database structure from DB.sql
 
 ```
 mysql db_name < DB.sql
-
 ```
 
 Run both, server and client application and open the browser.
@@ -57,10 +57,15 @@ cd ./client
 npm start
 
 http://localhost:3000
-
 ```
 
-## More info
+## TODO
+* User can create new movies from client app
+* User can update and delete movies from client
+* User can create new account
+* (API) User cannot delete or update movie, which he did not create
+
+## More on API
 I wanted to build an API that reaches the final level of The Richardson Maturity Model. This API serves movie data along with the ability to register and login users.
 HATEOAS was implemented without any packages. One can communicate with API in order to get movies data. By sending an auth header, API returns links for other actions,
 only accessable for authenticated user. Authenticated users have ability to CREATE, UPDATE, and DELETE movies.
@@ -164,7 +169,7 @@ npm run test
 
 ## Authors
 
-* **Jakub Skoneczny** - *Initial work* - [Profile](https://github.com/Skona27)
+* **Jakub Skoneczny** - *Initial work* - [Portfolio](https://jskoneczny.pl)
 
 
 ## License
