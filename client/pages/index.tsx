@@ -1,17 +1,8 @@
-import React from 'react';
-import {Layout} from "../components/Layout";
+import React from "react";
+import {Navbar} from "../components/Navbar";
 
 function Home() {
-  return (
-    <Layout>
-      <h1 css={{
-        fontWeight: 400,
-        letterSpacing: '1px'
-      }}>
-        Welcome to Next.js!
-      </h1>
-    </Layout>
-  )
+  return <Navbar/>;
 }
 
-export default Home
+export default Home;
