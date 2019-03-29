@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import {useTheme} from "../../hooks/Theme";
 
 interface IProps {
   text: string;
@@ -7,20 +8,29 @@ interface IProps {
 }
 
 export const NavbarItem: React.FC<IProps> = React.memo(({text, href}) => {
+  const {colors} = useTheme();
+
   return (
     <li
       css={{
-        margin: ".5rem"
+        "&:not(:first-of-type)": {
+          marginLeft: "2.5rem"
+        }
       }}
     >
       <Link href={href}>
         <a
           css={{
-            padding: ".25rem .75rem",
-            backgroundColor: "#ccc",
+            padding: ".1rem",
+            color: colors.white,
+            fontSize: "1.25rem",
+            fontWeight: 400,
             textDecoration: "none",
+            letterSpacing: 1,
+            transition: "color .1s ease-in",
             "&:hover": {
-              cursor: "pointer"
+              cursor: "pointer",
+              color: colors.black,
             }
           }}
         >
