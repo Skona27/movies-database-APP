@@ -1,21 +1,19 @@
 import React from "react";
 import Link from "next/link";
-import {useTheme} from "../../hooks/Theme";
+import { useTheme } from "../../hooks/Theme";
 
 interface IProps {
   text: string;
   href: string;
 }
 
-export const NavbarItem: React.FC<IProps> = React.memo(({text, href}) => {
-  const {colors} = useTheme();
+export const NavbarItem: React.FC<IProps> = React.memo(({ text, href }) => {
+  const { colors } = useTheme();
 
   return (
     <li
       css={{
-        "&:not(:first-of-type)": {
-          marginLeft: "2.5rem"
-        }
+        marginLeft: "2.5rem"
       }}
     >
       <Link href={href}>
@@ -30,7 +28,7 @@ export const NavbarItem: React.FC<IProps> = React.memo(({text, href}) => {
             transition: "color .1s ease-in",
             "&:hover": {
               cursor: "pointer",
-              color: colors.black,
+              color: colors.black
             }
           }}
         >
@@ -40,3 +38,5 @@ export const NavbarItem: React.FC<IProps> = React.memo(({text, href}) => {
     </li>
   );
 });
+
+NavbarItem.displayName = "NavbarItem";

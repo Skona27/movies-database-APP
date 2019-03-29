@@ -1,12 +1,6 @@
 import React from "react";
 
-export type IColor =
-  | "white"
-  | "black"
-  | "green"
-  | "red"
-  | "yellow"
-  | "blue";
+export type IColor = "white" | "black" | "green" | "red" | "yellow" | "blue";
 
 type IBreakpoint = "fromTablet" | "fromDesktop";
 
@@ -29,7 +23,7 @@ const theme: ITheme = {
     green: "#44bd32",
     red: "#e84118",
     yellow: "#fbc531",
-    blue: "#00a8ff",
+    blue: "#00a8ff"
   },
   bp: breakpoints
 };
@@ -40,7 +34,7 @@ export const useTheme = () => {
   return React.useContext(ThemeContext);
 };
 
-export const Theme: React.FC = React.memo(({children}) => {
+export const Theme: React.FC = React.memo(({ children }) => {
   return (
     <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>
   );

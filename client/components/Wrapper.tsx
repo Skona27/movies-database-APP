@@ -1,17 +1,17 @@
 import React from "react";
-import {IColor, useTheme} from "../hooks/Theme";
+import { IColor, useTheme } from "../hooks/Theme";
 
 interface IProps {
-  backgroundColor: IColor;
+  backgroundColor?: IColor;
   padding: string;
 }
 
 export const Wrapper: React.FC<IProps> = ({
-                                            backgroundColor = "white",
-                                            padding = "0 1rem",
-                                            children
-                                          }) => {
-  const {colors} = useTheme();
+  backgroundColor = "white",
+  padding = "0 1rem",
+  children
+}) => {
+  const { colors } = useTheme();
 
   return (
     <section

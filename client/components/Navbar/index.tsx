@@ -1,13 +1,13 @@
 import React from "react";
-import {Wrapper} from "../Wrapper";
-import {NavbarItem} from "./NavbarItem";
-import {useTheme} from "../../hooks/Theme";
+import { Wrapper } from "../Wrapper";
+import { NavbarItem } from "./NavbarItem";
+import { useTheme } from "../../hooks/Theme";
+import { Search } from "./Search";
 
-interface IProps {
-}
+interface IProps {}
 
 export const Navbar: React.FC<IProps> = React.memo(() => {
-  const {colors} = useTheme();
+  const { colors } = useTheme();
 
   return (
     <Wrapper padding="2rem 1rem" backgroundColor="blue">
@@ -31,14 +31,17 @@ export const Navbar: React.FC<IProps> = React.memo(() => {
         <ul
           css={{
             listStyleType: "none",
-            display: "flex"
+            display: "flex",
+            alignItems: "center"
           }}
         >
-          <NavbarItem text="Search" href="#"/>
-          <NavbarItem text="Log in" href="#"/>
-          <NavbarItem text="Register" href="#"/>
+          <Search />
+          <NavbarItem text="Log in" href="#" />
+          <NavbarItem text="Register" href="#" />
         </ul>
       </header>
     </Wrapper>
   );
 });
+
+Navbar.displayName = "Navbar";
