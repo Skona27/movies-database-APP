@@ -1,6 +1,7 @@
 import React from "react";
 import { useTheme } from "../../hooks/Theme";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
+import { ISearchResults } from "../types";
 import { AppContext } from "../AppContext";
 
 interface IProps {}
@@ -16,10 +17,11 @@ export const Search: React.FC<IProps> = React.memo(() => {
 
   React.useEffect(() => {
     async function fetchData() {
-      const searchResult = await axios.get(
-        `http://localhost:3001/api/movies?search=${value}`
+      const response: AxiosResponse = await axios.get(
+        `http://192.168.1.34:3001/api/movies?search=${value}`
       );
-      dispatch({ type: "searchResults", payload: searchResult.data });
+      const searchResults: ISearchResults = response.data;
+      dispatch({ type: "searchResults", payload: searchResults });
     }
     fetchData();
   }, [value]);

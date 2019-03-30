@@ -1,13 +1,15 @@
 import React from "react";
-import { reducer } from "./reducers";
+import { reducer, IAction } from "./reducers";
+import { ISearchResults } from "./types";
 
 interface IAppContext {
-  searchResults: [];
-  dispatch: (action) => void;
+  searchResults: ISearchResults | null;
+  dispatch: (action: IAction) => void;
 }
 
 const initialContext: IAppContext = {
-  searchResults: [],
+  searchResults: null,
+  // @ts-ignore
   dispatch: action => {}
 };
 

@@ -9,15 +9,17 @@ function Home() {
   return (
     <>
       <Navbar />
-      {searchResults.data && (
+      {searchResults && (
         <Wrapper padding="5rem 1rem">
-          <ul css={{
-            listStyleType: "none",
-            display: "flex",
-            flexWrap: "wrap",
-            padding: 0,
-            transform: "translateX(-1rem)",
-          }}>
+          <ul
+            css={{
+              listStyleType: "none",
+              display: "flex",
+              flexWrap: "wrap",
+              padding: 0,
+              transform: "translateX(-1rem)"
+            }}
+          >
             {searchResults.data.map(movie => (
               <li key={movie.id}>
                 <MovieCard title={movie.title} />
