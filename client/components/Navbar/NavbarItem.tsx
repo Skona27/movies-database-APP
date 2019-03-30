@@ -32,10 +32,10 @@ export const NavbarItem: React.FC<IProps> = React.memo(
               padding: ".1rem",
               color: isActive ? colors.black : colors.white,
               fontSize: "1.25rem",
-              fontWeight: 400,
+              fontWeight: 500,
               textDecoration: "none",
               letterSpacing: 1,
-              transition: "color .1s ease-in",
+              transition: "color .15s ease-in",
               "&:hover": {
                 cursor: "pointer",
                 color: colors.black

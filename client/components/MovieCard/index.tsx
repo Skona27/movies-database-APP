@@ -3,7 +3,7 @@ import { useTheme } from "../../hooks/Theme";
 import { IMovie } from "../types";
 
 export const MovieCard: React.FC<IMovie> = React.memo(
-  ({ title, description, genre, year, director, rate, links }) => {
+  ({ title, description, genre, year, director, rate }) => {
     const { colors } = useTheme();
 
     const flexBetween = {
@@ -31,7 +31,7 @@ export const MovieCard: React.FC<IMovie> = React.memo(
           fontWeight: 300,
           border: `1px solid ${colors.black}`,
           ...flexBetween,
-          flexDirection: "column",      
+          flexDirection: "column"
         }}
       >
         <div>
@@ -67,7 +67,7 @@ export const MovieCard: React.FC<IMovie> = React.memo(
             </div>
             <div>
               <h4 css={h4Styles}>Year:</h4>
-              <p>{year}</p> marginBottom: ".25rem"
+              <p>{year}</p>
             </div>
           </div>
 
@@ -107,11 +107,9 @@ export const MovieCard: React.FC<IMovie> = React.memo(
                 color: colors.white,
                 textDecoration: "none",
                 fontWeight: 600,
-                transition: "all .1s ease-in",
-                transitionProperty: "color, background-color",
+                transition: "background-color .15s ease-in",
                 "&:hover": {
-                  color: colors.black,
-                  backgroundColor: colors.white,
+                  backgroundColor: colors.black,
                   cursor: "pointer"
                 }
               }}

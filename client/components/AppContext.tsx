@@ -1,16 +1,18 @@
 import React from "react";
 import { reducer, IAction } from "./reducers";
-import { ISearchResults, INavbarItem } from "./types";
+import { ISearchResults, INavbarItem, IUser } from "./types";
 
 interface IAppContext {
-  activeNavbar: INavbarItem,
+  activeNavbar: INavbarItem;
   searchResults: ISearchResults | null;
+  user: IUser | null;
   dispatch: (action: IAction) => void;
 }
 
 const initialContext: IAppContext = {
   activeNavbar: "search",
   searchResults: null,
+  user: null,
   // @ts-ignore
   dispatch: action => {}
 };

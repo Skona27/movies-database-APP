@@ -18,7 +18,8 @@ export const Search: React.FC<IProps> = React.memo(() => {
   React.useEffect(() => {
     async function fetchData() {
       const response: AxiosResponse = await axios.get(
-        `http://192.168.1.34:3001/api/movies?search=${value}`
+        `http://192.168.1.101:3001/api/movies?search=${value}`
+        // `http://192.168.1.34:3001/api/movies?search=${value}`
       );
       const searchResults: ISearchResults = response.data;
       dispatch({ type: "searchResults", payload: searchResults });
@@ -35,7 +36,7 @@ export const Search: React.FC<IProps> = React.memo(() => {
     >
       <input
         type="text"
-        placeholder="Search a movie..."
+        placeholder="Search for a movie..."
         value={value}
         onChange={handleInputChange}
         css={{
@@ -45,7 +46,7 @@ export const Search: React.FC<IProps> = React.memo(() => {
           fontWeight: 400,
           borderRadius: 2,
           border: "none",
-          outlineColor: colors.black,
+          outlineColor: colors.blue,
           color: colors.black,
           backgroundColor: colors.white
         }}

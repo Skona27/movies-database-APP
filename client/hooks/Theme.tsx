@@ -18,8 +18,8 @@ interface ITheme {
 
 const theme: ITheme = {
   colors: {
-    white: "#fbfbfb",
-    black: "#1e272e",
+    white: "#f9f9f9",
+    black: "#394046",
     green: "#44bd32",
     red: "#fb613b",
     yellow: "#fbff69",

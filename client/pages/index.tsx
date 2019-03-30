@@ -4,16 +4,22 @@ import { Wrapper } from "../components/Wrapper";
 import { AppContext } from "../components/AppContext";
 import { MovieCard } from "../components/MovieCard";
 import { Search } from "../components/Navbar/Search";
+import { AxiosResponse } from "axios";
+import axios from "axios";
+import { IMovie, ISearchResults } from "../components/types";
 
-function Home() {
+function Home(allMovies: ISearchResults) {
   const { searchResults } = React.useContext(AppContext);
+
+  const movies: IMovie[] = searchResults ? searchResults.data : allMovies.data;
+
   return (
     <>
       <Navbar />
-      <Wrapper padding="1rem" backgroundColor="black">
+      <Wrapper padding="1.25rem 1rem" backgroundColor="black">
         <Search />
       </Wrapper>
-      {searchResults && (
+      {movies && (
         <Wrapper padding="4rem 1rem">
           <ul
             css={{
@@ -24,7 +30,7 @@ function Home() {
               transform: "translateX(-1rem)"
             }}
           >
-            {searchResults.data.map(movie => (
+            {movies.map(movie => (
               <li key={movie.id}>
                 <MovieCard {...movie} />
               </li>
@@ -35,5 +41,14 @@ function Home() {
     </>
   );
 }
+
+Home.getInitialProps = async () => {
+  const response: AxiosResponse = await axios.get(
+    `http://192.168.1.101:3001/api/movies`
+    // `http://192.168.1.34:3001/api/movies`
+  );
+  const searchResults: ISearchResults = response.data;
+  return { allMovies: searchResults };
+};
 
 export default Home;

@@ -4,8 +4,8 @@ export interface ISearchResults {
   totalCount: number;
   perPage: number;
   pageNumber: number;
-  data: Array<IMovie>;
-  links: Array<ILinks>;
+  data: IMovie[];
+  links: ILinks[];
 }
 
 export interface IMovie {
@@ -27,4 +27,10 @@ export interface ILinks {
   rel: string;
   method: string;
   href: string;
+}
+
+export interface IUser {
+  id: number;
+  firstName: string;
+  token: string;
 }
