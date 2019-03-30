@@ -2,7 +2,6 @@ import React from "react";
 import { Wrapper } from "../Wrapper";
 import { NavbarItem } from "./NavbarItem";
 import { useTheme } from "../../hooks/Theme";
-import { Search } from "./Search";
 
 interface IProps {}
 
@@ -35,9 +34,9 @@ export const Navbar: React.FC<IProps> = React.memo(() => {
             alignItems: "center"
           }}
         >
-          <Search />
-          <NavbarItem text="Log in" href="#" />
-          <NavbarItem text="Register" href="#" />
+          <NavbarItem text="Search" href="/" type="search" />
+          <NavbarItem text="Log in" href="/login" type="login" />
+          <NavbarItem text="Register" href="#" type="register" />
         </ul>
       </header>
     </Wrapper>
