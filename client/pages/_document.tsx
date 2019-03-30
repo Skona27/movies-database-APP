@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx } from "@emotion/core";
+import { Global, css, jsx } from "@emotion/core";
 
 import Document, { Main, NextScript } from "next/document";
 
@@ -12,18 +12,19 @@ class MyDocument extends Document {
   render() {
     return (
       <html>
-        <style>
-          @import
-          url('https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700&subset=latin-ext');
-        </style>
-        <body
-          css={{
-            padding: "0",
-            margin: "0",
-            boxSizing: "border-box",
-            fontFamily: "Raleway, sans-serif"
-          }}
-        >
+        <Global
+          styles={css`
+            @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700&subset=latin-ext");
+            * {
+              margin: 0;
+              padding: 0;
+              box-sizing: border-box;
+            }
+          `}
+        />
+        <body css={{
+          fontFamily: "Raleway, sans-serif"
+        }}>
           <Main />
           <NextScript />
         </body>

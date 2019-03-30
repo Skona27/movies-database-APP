@@ -21,8 +21,8 @@ const theme: ITheme = {
     white: "#fbfbfb",
     black: "#1e272e",
     green: "#44bd32",
-    red: "#e84118",
-    yellow: "#fbc531",
+    red: "#fb613b",
+    yellow: "#fbff69",
     blue: "#00a8ff"
   },
   bp: breakpoints

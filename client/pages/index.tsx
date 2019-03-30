@@ -22,7 +22,7 @@ function Home() {
           >
             {searchResults.data.map(movie => (
               <li key={movie.id}>
-                <MovieCard title={movie.title} />
+                <MovieCard {...movie} />
               </li>
             ))}
           </ul>
