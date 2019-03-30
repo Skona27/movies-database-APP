@@ -1,15 +1,14 @@
 import React from "react";
 import { useTheme } from "../../hooks/Theme";
 import axios from "axios";
+import { AppContext } from "../AppContext";
 
 interface IProps {}
 
 export const Search: React.FC<IProps> = React.memo(() => {
   const { colors } = useTheme();
   const [value, setValue] = React.useState("");
-  const [results, setResults] = React.useState({});
-
-  console.log(results);
+  const { dispatch } = React.useContext(AppContext);
 
   const handleInputChange = (event: {
     target: { value: React.SetStateAction<string> };
@@ -20,7 +19,7 @@ export const Search: React.FC<IProps> = React.memo(() => {
       const searchResult = await axios.get(
         `http://localhost:3001/api/movies?search=${value}`
       );
-      setResults(searchResult);
+      dispatch({ type: "searchResults", payload: searchResult.data });
     }
     fetchData();
   }, [value]);

@@ -1,6 +1,7 @@
 import React from "react";
 import App, { Container, NextAppContext } from "next/app";
 import { Theme } from "../hooks/Theme";
+import { AppContextProvider } from "../components/AppContext";
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }: NextAppContext) {
@@ -18,9 +19,11 @@ class MyApp extends App {
 
     return (
       <Container>
-        <Theme>
-          <Component {...pageProps} />
-        </Theme>
+        <AppContextProvider>
+          <Theme>
+            <Component {...pageProps} />
+          </Theme>
+        </AppContextProvider>
       </Container>
     );
   }

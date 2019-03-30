@@ -3,11 +3,14 @@ import { Wrapper } from "../Wrapper";
 import { NavbarItem } from "./NavbarItem";
 import { useTheme } from "../../hooks/Theme";
 import { Search } from "./Search";
+import { AppContext } from "../AppContext";
 
 interface IProps {}
 
 export const Navbar: React.FC<IProps> = React.memo(() => {
   const { colors } = useTheme();
+  const { searchResults } = React.useContext(AppContext);
+  console.log(searchResults.data);
 
   return (
     <Wrapper padding="2rem 1rem" backgroundColor="blue">
