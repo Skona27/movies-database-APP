@@ -1,3 +1,5 @@
+export type INavbarItem = "search" | "login" | "register";
+
 export interface ISearchResults {
   totalCount: number;
   perPage: number;

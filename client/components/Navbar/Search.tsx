@@ -40,7 +40,7 @@ export const Search: React.FC<IProps> = React.memo(() => {
         onChange={handleInputChange}
         css={{
           padding: ".5rem .75rem",
-          width: "17.5rem",
+          width: "27.5rem",
           fontSize: "1rem",
           fontWeight: 400,
           borderRadius: 2,
