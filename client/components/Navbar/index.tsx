@@ -3,10 +3,9 @@ import { Wrapper } from "../Wrapper";
 import { NavbarItem } from "./NavbarItem";
 import { useTheme } from "../../hooks/Theme";
 import { AppContext } from "../AppContext";
+import { Button } from "../UI/Button";
 
-interface IProps {}
-
-export const Navbar: React.FC<IProps> = React.memo(() => {
+export const Navbar: React.FC = React.memo(() => {
   const { colors } = useTheme();
   const { user, dispatch } = React.useContext(AppContext);
 
@@ -37,38 +36,23 @@ export const Navbar: React.FC<IProps> = React.memo(() => {
           css={{
             listStyleType: "none",
             display: "flex",
-            alignItems: "center"
+            alignItems: "baseline"
           }}
         >
           <NavbarItem text="Search" href="/" type="search" />
           {!user && (
             <>
               <NavbarItem text="Log in" href="/login" type="login" />
-              <NavbarItem text="Register" href="#" type="register" />
+              <NavbarItem text="Register" href="/register" type="register" />
             </>
           )}
           {user && (
-            <button
-              css={{
-                marginLeft: "2.5rem",
-                padding: ".1rem",
-                fontSize: "1.25rem",
-                fontWeight: 500,
-                textDecoration: "none",
-                letterSpacing: 1,
-                transition: "color .15s ease-in",
-                color: colors.white,
-                border: "none",
-                background: "none",
-                "&:hover": {
-                  cursor: "pointer",
-                  color: colors.black
-                }
-              }}
+            <Button
+              text="Log out"
+              variant="link"
               onClick={handleLogout}
-            >
-              Log out
-            </button>
+              css={{ marginLeft: "2.5rem", fontSize: "1.25rem" }}
+            />
           )}
         </ul>
       </header>

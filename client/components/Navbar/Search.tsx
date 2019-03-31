@@ -1,13 +1,10 @@
 import React from "react";
-import { useTheme } from "../../hooks/Theme";
 import axios, { AxiosResponse } from "axios";
 import { ISearchResults } from "../types";
 import { AppContext } from "../AppContext";
+import { Input } from "../UI/Input";
 
-interface IProps {}
-
-export const Search: React.FC<IProps> = React.memo(() => {
-  const { colors } = useTheme();
+export const Search: React.FC = React.memo(() => {
   const [value, setValue] = React.useState("");
   const { dispatch } = React.useContext(AppContext);
 
@@ -19,7 +16,6 @@ export const Search: React.FC<IProps> = React.memo(() => {
     async function fetchData() {
       const response: AxiosResponse = await axios.get(
         `http://192.168.1.101:3001/api/movies?search=${value}`
-        // `http://192.168.1.34:3001/api/movies?search=${value}`
       );
       const searchResults: ISearchResults = response.data;
       dispatch({ type: "searchResults", payload: searchResults });
@@ -34,22 +30,12 @@ export const Search: React.FC<IProps> = React.memo(() => {
         justifyContent: "center"
       }}
     >
-      <input
+      <Input
         type="text"
         placeholder="Search for a movie..."
         value={value}
         onChange={handleInputChange}
-        css={{
-          padding: ".5rem .75rem",
-          width: "27.5rem",
-          fontSize: "1rem",
-          fontWeight: 400,
-          borderRadius: 2,
-          border: "none",
-          outlineColor: colors.blue,
-          color: colors.black,
-          backgroundColor: colors.white
-        }}
+        css={{ marginBottom: 0, width: "27.5rem" }}
       />
     </form>
   );

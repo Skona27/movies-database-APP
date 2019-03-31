@@ -16,7 +16,7 @@ interface ITheme {
   bp: IBreakpoints;
 }
 
-const theme: ITheme = {
+export const theme: ITheme = {
   colors: {
     white: "#f9f9f9",
     black: "#394046",
