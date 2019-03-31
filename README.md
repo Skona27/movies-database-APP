@@ -1,5 +1,5 @@
-# movies-restfulAPI
-SPA application built with React on top of Movies RESTful API with implemented HATEOAS and Server Side Caching, built with NodeJS, Express, MySQL.
+# movies-database
+SPA application built with ReactJS on top of NodeJS RESTful API with implemented HATEOAS and Server Side Caching, built with Express and MySQL database.
 
 ## Getting Started
 
@@ -7,7 +7,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+What things you need:
 
 ```
 NodeJS and NPM package manager
@@ -30,7 +30,7 @@ cd ./client
 npm i
 ```
 
-Create .enf file with database connection info nad JWT secret in server directory
+Create .env file with database connection info nad JWT secret in server directory
 ```
 # Database
 DB_HOST=
@@ -54,23 +54,20 @@ Run both, server and client application and open the browser.
 cd ./server
 npm start
 cd ./client 
-npm start
+npm run dev
 
 http://localhost:3000
 ```
-
-## TODO
-* User can create new movies from client app
-* User can update and delete movies from client
-* User can create new account
-* (API) User cannot delete or update movie, which he did not create
 
 ## More on API
 I wanted to build an API that reaches the final level of The Richardson Maturity Model. This API serves movie data along with the ability to register and login users.
 HATEOAS was implemented without any packages. One can communicate with API in order to get movies data. By sending an auth header, API returns links for other actions,
 only accessable for authenticated user. Authenticated users have ability to CREATE, UPDATE, and DELETE movies.
 
-JWT token send in header: Authorization: Bearer 'token'. 
+JWT token send in header: 
+```
+Authorization: Bearer 'token'
+```
 Server side caching was implemented in this API by using a node-cache package.
 
 ### Communicating with API
@@ -79,35 +76,35 @@ Getting all the movies,
 Auth header: non-required
 
 ```
-GET http://localhost:3000/api/movies
+GET http://localhost:3001/api/movies
 ```
 
 Getting one movie,
 Auth header: non-required
 
 ```
-GET http://localhost:3000/api/movies/:id
+GET http://localhost:3001/api/movies/:id
 ```
 
 Updating one movie,
 Auth header: required
 
 ```
-UPDATE http://localhost:3000/api/movies/:id
+UPDATE http://localhost:3001/api/movies/:id
 ```
 
 Deleting one movie,
 Auth header: required
 
 ```
-DELETE http://localhost:3000/api/movies/:id
+DELETE http://localhost:3001/api/movies/:id
 ```
 
 Creating a movie,
 Auth header: required
 
 ```
-POST http://localhost:3000/api/movies
+POST http://localhost:3001/api/movies
 BODY:
 {
 	"title": "",
@@ -124,13 +121,13 @@ BODY:
 Register user
 
 ```
-POST http://localhost:3000/api/register
+POST http://localhost:3001/api/register
 BODY:
 {
 	"email": "",
 	"password": "",
 	"lastName": "",
-	"firstName": "",
+	"firstName": ""
 }
 
 ```
@@ -138,11 +135,11 @@ BODY:
 Login user
 
 ```
-POST http://localhost:3000/api/login
+POST http://localhost:3001/api/login
 BODY:
 {
 	"email": "",
-	"password": "",
+	"password": ""
 }
 
 ```
@@ -157,6 +154,8 @@ Running tests:
 npm run test
 ```
 
+## TODO
+* (API) User cannot delete or update movie, which he did not create
 
 ## Built With
 
@@ -164,6 +163,8 @@ npm run test
 * MySQL - Database used
 * mysql, express-validator, jsonwebtoken, node-cache - Packages worth mentioning
 * Mocha, supertest - For testing
+* ReactJS
+* Next.js
 
 
 

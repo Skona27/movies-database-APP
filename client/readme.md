@@ -1,13 +1,5 @@
-# next-typescript boilerplate
-A boilerplate using Next.js, Typescript, Bundle analyzer and Emotion library for CSS-in-JS.
-
-## Getting Started
-```
-git clone https://github.com/Skona27/next-typescript-emotion-boilerplate.git my-project
-cd my-project
-npm install
-npm run dev
-```
+# movies-database client
+SPA using Next.js, Typescript, Bundle analyzer and Emotion library for CSS-in-JS.
 
 ## Development
 During development, try one of following commands:
