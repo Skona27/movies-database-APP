@@ -9,7 +9,8 @@ interface IProps {
 export const Wrapper: React.FC<IProps> = ({
   backgroundColor = "white",
   padding = "0 1rem",
-  children
+  children,
+  ...props
 }) => {
   const { colors } = useTheme();
 
@@ -25,6 +26,7 @@ export const Wrapper: React.FC<IProps> = ({
           maxWidth: "85rem",
           margin: "0 auto"
         }}
+        {...props}
       >
         {children}
       </div>

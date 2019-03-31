@@ -20,6 +20,16 @@ const variants: { [key in IButtonVariant]: IButtonVariantDefinition } = {
       color: theme.colors.blue
     }
   },
+  secondary: {
+    active: {
+      color: theme.colors.white,
+      backgroundColor: theme.colors.red,
+      outlineColor: theme.colors.black
+    },
+    hover: {
+      color: theme.colors.black
+    }
+  },
   link: {
     active: {
       color: theme.colors.white,

@@ -6,7 +6,9 @@ import { Input } from "../UI/Input";
 
 export const Search: React.FC = React.memo(() => {
   const [value, setValue] = React.useState("");
-  const { dispatch } = React.useContext(AppContext);
+  const { dispatch, user } = React.useContext(AppContext);
+
+  const authHeaders = user ? { Authorization: `Bearer ${user.token}` } : {};
 
   const handleInputChange = (event: {
     target: { value: React.SetStateAction<string> };
@@ -15,7 +17,8 @@ export const Search: React.FC = React.memo(() => {
   React.useEffect(() => {
     async function fetchData() {
       const response: AxiosResponse = await axios.get(
-        `http://192.168.1.101:3001/api/movies?search=${value}`
+        `http://192.168.1.101:3001/api/movies?search=${value}`,
+        { headers: authHeaders }
       );
       const searchResults: ISearchResults = response.data;
       dispatch({ type: "searchResults", payload: searchResults });

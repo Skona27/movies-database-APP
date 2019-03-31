@@ -29,10 +29,22 @@ module.exports.getAllMovies = async function (req, res, next) {
         movies.pageNumber = (perPage+offset)/perPage;
         movies.data = await Movie.getAllMovies(perPage, offset, sortBy, order, search);
 
+        const authHeader = req.headers.authorization;
+
         movies.data.forEach(movie => {
            movie.links = [
                {rel: "self", method: "GET", href: `http://${req.headers.host}/api/movies/${movie.id}`}
            ];
+
+           if (authHeader) {
+               if(!User.validateAuthHeader(authHeader))
+                   return next({ status: 401, message: "Bad authentication token." });
+
+               movie.links.push(
+                    {rel: "update", method: "PUT", href: `http://${req.headers.host}/api/movies/${movie.id}`},
+                    {rel: "delete", method: "DELETE", href: `http://${req.headers.host}/api/movies/${movie.id}`}
+                );
+           }
         });
 
         // Links
@@ -43,9 +55,6 @@ module.exports.getAllMovies = async function (req, res, next) {
 
         if(movies.totalCount > offset+perPage)
             links.push({rel: "next", method: "GET", href: `http://${req.headers.host}/api/movies?perPage=${perPage}&offset=${offset+perPage}`});
-
-        // Check auth and push link
-        const authHeader = req.headers.authorization;
 
         if(authHeader) {
             if(!User.validateAuthHeader(authHeader))

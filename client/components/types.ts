@@ -20,7 +20,7 @@ export interface IMovie {
   rate: string;
   created_at: string;
   modified_at: null | "string";
-  links: ILinks;
+  links: ILinks[];
 }
 
 export interface ILinks {

@@ -1,9 +1,10 @@
 import React from "react";
 import { useTheme } from "../../hooks/Theme";
 import { IMovie } from "../types";
+import { Button } from "../UI/Button";
 
 export const MovieCard: React.FC<IMovie> = React.memo(
-  ({ title, description, genre, year, director, rate }) => {
+  ({ id, title, description, genre, year, director, rate, links }) => {
     const { colors } = useTheme();
 
     const flexBetween = {
@@ -21,7 +22,7 @@ export const MovieCard: React.FC<IMovie> = React.memo(
       <article
         css={{
           width: "19.25rem",
-          height: "38rem",
+          height: "40rem",
           marginLeft: "2rem",
           marginBottom: "2rem",
           padding: "1.75rem",
@@ -95,27 +96,48 @@ export const MovieCard: React.FC<IMovie> = React.memo(
             css={{
               marginTop: "1rem",
               display: "flex",
-              alignContent: "center",
+              flexDirection: "column",
+              alignItems: "center",
               justifyContent: "center"
             }}
           >
-            <a
-              href="#"
-              css={{
-                padding: ".5rem 1.25rem",
-                backgroundColor: colors.blue,
-                color: colors.white,
-                textDecoration: "none",
-                fontWeight: 600,
-                transition: "background-color .15s ease-in",
-                "&:hover": {
-                  backgroundColor: colors.black,
-                  cursor: "pointer"
-                }
-              }}
-            >
-              More details
-            </a>
+            {links.map(link => {
+              switch (link.rel) {
+                case "self":
+                  return (
+                    <a
+                      href={`/movie/${id}`}
+                      css={{
+                        width: "fit-content",
+                        padding: ".5rem 1.25rem",
+                        backgroundColor: colors.green,
+                        color: colors.white,
+                        textDecoration: "none",
+                        fontWeight: 500,
+                        transition: "color .15s ease-in",
+                        "&:hover": {
+                          color: colors.black,
+                          cursor: "pointer"
+                        }
+                      }}
+                    >
+                      More details
+                    </a>
+                  );
+                case "update":
+                  return <Button text="Edit" css={{ marginTop: ".5rem" }} />;
+                case "delete":
+                  return (
+                    <Button
+                      variant="secondary"
+                      text="Delete"
+                      css={{ marginTop: ".5rem" }}
+                    />
+                  );
+                default:
+                  break;
+              }
+            })}
           </div>
         </div>
       </article>

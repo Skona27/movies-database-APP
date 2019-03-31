@@ -1,4 +1,4 @@
-export type IButtonVariant = "primary" | "link";
+export type IButtonVariant = "primary" | "secondary" | "link";
 
 export interface IButtonVariantDefinition {
   active: {
