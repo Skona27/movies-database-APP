@@ -2,6 +2,7 @@ import React from "react";
 import App, { Container, NextAppContext } from "next/app";
 import { Theme } from "../hooks/Theme";
 import { AppContextProvider } from "../components/AppContext";
+import { WithAuth } from "../hoc/withAuth";
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }: NextAppContext) {
@@ -21,7 +22,9 @@ class MyApp extends App {
       <Container>
         <AppContextProvider>
           <Theme>
-            <Component {...pageProps} />
+            <WithAuth>
+              <Component {...pageProps} />
+            </WithAuth>
           </Theme>
         </AppContextProvider>
       </Container>

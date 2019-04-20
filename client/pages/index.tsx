@@ -6,12 +6,14 @@ import { MovieCard } from "../components/MovieCard";
 import { Search } from "../components/Navbar/Search";
 import { AxiosResponse } from "axios";
 import axios from "axios";
-import { IMovie, ISearchResults } from "../components/types";
+import { ILinks, IMovie, ISearchResults } from "../components/types";
+import { A } from "../components/UI/A";
 
 function Home(allMovies: ISearchResults) {
   const { searchResults } = React.useContext(AppContext);
 
   const movies: IMovie[] = searchResults ? searchResults.data : allMovies.data;
+  const links: ILinks[] = searchResults ? searchResults.links : allMovies.links;
 
   return (
     <>
@@ -36,6 +38,12 @@ function Home(allMovies: ISearchResults) {
               </li>
             ))}
           </ul>
+
+          <div css={{ display: "flex", justifyContent: "flex-end" }}>
+            {links.map(link => {
+              return link.rel === "create" ? <A>Add new movie</A> : null;
+            })}
+          </div>
         </Wrapper>
       )}
     </>

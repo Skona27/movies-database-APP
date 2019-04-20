@@ -2,6 +2,7 @@ import React from "react";
 import { useTheme } from "../../hooks/Theme";
 import { IMovie } from "../types";
 import { Button } from "../UI/Button";
+import { A } from "../UI/A";
 
 export const MovieCard: React.FC<IMovie> = React.memo(
   ({ id, title, description, genre, year, director, rate, links }) => {
@@ -104,28 +105,9 @@ export const MovieCard: React.FC<IMovie> = React.memo(
             {links.map(link => {
               switch (link.rel) {
                 case "self":
-                  return (
-                    <a
-                      href={`/movie/${id}`}
-                      css={{
-                        width: "fit-content",
-                        padding: ".5rem 1.25rem",
-                        backgroundColor: colors.green,
-                        color: colors.white,
-                        textDecoration: "none",
-                        fontWeight: 500,
-                        transition: "color .15s ease-in",
-                        "&:hover": {
-                          color: colors.black,
-                          cursor: "pointer"
-                        }
-                      }}
-                    >
-                      More details
-                    </a>
-                  );
+                  return <A href={`/movie/${id}`}>More details</A>;
                 case "update":
-                  return <Button text="Edit" css={{ marginTop: ".5rem" }} />;
+                  break;
                 case "delete":
                   return (
                     <Button
