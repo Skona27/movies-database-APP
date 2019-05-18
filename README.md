@@ -1,6 +1,9 @@
 # movies-database
 SPA application built with ReactJS on top of NodeJS RESTful API with implemented HATEOAS and Server Side Caching, built with Express and MySQL database.
 
+Online: [movies-database.jskoneczny.pl](http://movies-database.jskoneczny.pl/)
+API: [jskoneczny.pl:3004](http://jskoneczny.pl:3004/)
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
