@@ -4,9 +4,9 @@
   "description": "Client app for moviesAPI",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
+    "dev": "next -p 3005",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3005",
     "test:tsc": "tsc",
     "analyze": "cross-env BUNDLE_ANALYZE=both next build",
     "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",

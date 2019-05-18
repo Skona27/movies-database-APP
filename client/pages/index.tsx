@@ -44,8 +44,8 @@ function Home(allMovies: ISearchResults) {
 
 Home.getInitialProps = async () => {
   const response: AxiosResponse = await axios.get(
-    `http://192.168.1.101:3001/api/movies`
-    // `http://192.168.1.34:3001/api/movies`
+    `http://localhost:3004/api/movies`
+    // `http://localhost:3004/api/movies`
   );
   const searchResults: ISearchResults = response.data;
   return { allMovies: searchResults };
