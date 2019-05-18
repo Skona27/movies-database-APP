@@ -21,7 +21,7 @@ function Register() {
   const handleFormSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
     const response: AxiosResponse = await axios.post(
-      `http://192.168.1.101:3001/api/register`,
+      `http://localhost:3004/api/register`,
       { email, password, firstName, lastName }
     );
     const user: IUser = response.data;

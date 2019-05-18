@@ -1,5 +1,5 @@
 // Requirements
-require("dotenv").load();
+require("dotenv").config();
 const mysql = require('mysql');
 const util = require('util');
 

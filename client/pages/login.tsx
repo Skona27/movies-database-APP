@@ -24,7 +24,7 @@ function Login() {
   const handleFormSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
     const response: AxiosResponse = await axios.post(
-      `http://192.168.1.101:3001/api/login`,
+      `http://localhost:3004/api/login`,
       { email, password }
     );
     const user: IUser = response.data;

@@ -17,7 +17,7 @@ export const Search: React.FC = React.memo(() => {
   React.useEffect(() => {
     async function fetchData() {
       const response: AxiosResponse = await axios.get(
-        `http://192.168.1.101:3001/api/movies?search=${value}`,
+        `http://localhost:3004/api/movies?search=${value}`,
         { headers: authHeaders }
       );
       const searchResults: ISearchResults = response.data;
